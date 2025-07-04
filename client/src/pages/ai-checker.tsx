@@ -227,16 +227,16 @@ export default function AiChecker() {
               
               <div className="space-y-4">
                 <div className="bg-white bg-opacity-10 rounded-lg p-4">
-                  <h3 className="text-sm font-medium mb-2">Recent Pattern</h3>
+                  <h3 className="text-sm font-medium mb-2">AI-Powered Analysis</h3>
                   <p className="text-xs text-purple-100">
-                    Increased respiratory symptoms in the past week. Consider seasonal factors.
+                    Real-time symptom analysis using OpenAI's latest GPT-4o model for accurate preliminary assessments.
                   </p>
                 </div>
                 
                 <div className="bg-white bg-opacity-10 rounded-lg p-4">
-                  <h3 className="text-sm font-medium mb-2">Recommendation</h3>
+                  <h3 className="text-sm font-medium mb-2">Smart Recommendations</h3>
                   <p className="text-xs text-purple-100">
-                    3 patients may benefit from cardiovascular screening based on risk factors.
+                    Evidence-based action plans and urgency assessments powered by advanced AI technology.
                   </p>
                 </div>
               </div>

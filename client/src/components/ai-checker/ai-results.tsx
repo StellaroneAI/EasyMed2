@@ -26,6 +26,7 @@ interface AiResultsProps {
     recommendedActions: string[];
     status: string;
     createdAt: string;
+    disclaimerNote?: string;
   };
 }
 
@@ -183,11 +184,21 @@ export default function AiResults({ consultation }: AiResultsProps) {
         </CardContent>
       </Card>
 
-      {/* Disclaimer */}
+      {/* AI-Generated Disclaimer */}
+      {consultation.disclaimerNote && (
+        <Alert className="bg-blue-50 border-blue-200">
+          <AlertTriangle className="h-4 w-4 text-blue-600" />
+          <AlertDescription className="text-blue-800">
+            <strong>AI Analysis Note:</strong> {consultation.disclaimerNote}
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Standard Medical Disclaimer */}
       <Alert className="bg-yellow-50 border-yellow-200">
         <AlertTriangle className="h-4 w-4 text-yellow-600" />
         <AlertDescription className="text-yellow-800">
-          <strong>Medical Disclaimer:</strong> This AI analysis is for preliminary assessment only. 
+          <strong>Medical Disclaimer:</strong> This AI analysis uses OpenAI technology for preliminary assessment only. 
           Always consult with a qualified healthcare professional for proper diagnosis and treatment.
         </AlertDescription>
       </Alert>

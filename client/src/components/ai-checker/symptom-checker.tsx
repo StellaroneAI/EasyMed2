@@ -282,12 +282,12 @@ export default function SymptomChecker({ onConsultationComplete }: SymptomChecke
             {analyzeSymptomsMutation.isPending ? (
               <>
                 <Bot className="w-4 h-4 mr-2 animate-spin" />
-                Analyzing Symptoms...
+                AI Analyzing Symptoms...
               </>
             ) : (
               <>
                 <Zap className="w-4 h-4 mr-2" />
-                Analyze Symptoms with AI
+                Analyze with OpenAI
               </>
             )}
           </Button>

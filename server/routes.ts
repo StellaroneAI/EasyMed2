@@ -550,35 +550,67 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.post('/api/demo/ai-consultations', async (req, res) => {
-    const consultationData = req.body;
-    
-    // Simulate AI analysis
-    const mockAnalysis = {
-      possibleConditions: [
-        { condition: "Common Cold", probability: 0.7 },
-        { condition: "Viral Infection", probability: 0.2 },
-        { condition: "Allergic Reaction", probability: 0.1 }
-      ],
-      severity: "Low",
-      urgency: "Non-urgent"
-    };
+    try {
+      const consultationData = req.body;
+      
+      // Import OpenAI service
+      const { analyzeSymptoms } = await import('./openai');
+      
+      // Perform real AI analysis
+      const analysis = await analyzeSymptoms({
+        symptoms: consultationData.symptoms || [],
+        duration: consultationData.duration || "Unknown",
+        severity: consultationData.severity || "Medium",
+        riskFactors: consultationData.riskFactors || [],
+        additionalInfo: consultationData.additionalInfo || ""
+      });
 
-    const mockRecommendations = [
-      "Rest and stay hydrated",
-      "Monitor symptoms for 48-72 hours",
-      "Consider over-the-counter remedies if needed",
-      "Seek medical attention if symptoms worsen"
-    ];
+      res.status(201).json({
+        id: Date.now(),
+        patientId: consultationData.patientId,
+        symptoms: consultationData.symptoms,
+        aiAnalysis: {
+          possibleConditions: analysis.possibleConditions,
+          severity: analysis.severity,
+          urgency: analysis.urgency
+        },
+        recommendedActions: analysis.recommendedActions,
+        confidenceScore: analysis.confidenceScore.toString(),
+        status: "completed",
+        disclaimerNote: analysis.disclaimerNote,
+        createdAt: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error("AI consultation error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+      res.status(500).json({ 
+        message: "Failed to analyze symptoms", 
+        error: errorMessage
+      });
+    }
+  });
 
-    res.status(201).json({
-      id: Date.now(),
-      ...consultationData,
-      aiAnalysis: mockAnalysis,
-      recommendedActions: mockRecommendations,
-      confidenceScore: "0.75",
-      status: "completed",
-      createdAt: new Date().toISOString()
-    });
+  // Health insights endpoint using OpenAI
+  app.post('/api/demo/health-insights', async (req, res) => {
+    try {
+      const { symptoms, patientHistory } = req.body;
+      
+      const { getHealthInsights } = await import('./openai');
+      
+      const insights = await getHealthInsights(symptoms || [], patientHistory);
+      
+      res.json({
+        insights,
+        generatedAt: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error("Health insights error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+      res.status(500).json({ 
+        message: "Failed to generate health insights", 
+        error: errorMessage
+      });
+    }
   });
 
   // Dashboard routes
