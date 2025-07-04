@@ -6,7 +6,7 @@ import { MedicalRecordSummary } from "@/types";
 
 export default function MedicalRecords() {
   const { data: records = [], isLoading } = useQuery<MedicalRecordSummary[]>({
-    queryKey: ["/api/medical-records/doctor/1"], // Using doctor ID 1 for demo
+    queryKey: ["/api/demo/medical-records/doctor/1"], // Using doctor ID 1 for demo
   });
 
   // Mock data for demonstration

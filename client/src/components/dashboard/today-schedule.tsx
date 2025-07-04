@@ -8,7 +8,7 @@ import { AppointmentWithPatient } from "@/types";
 
 export default function TodaySchedule() {
   const { data: appointments = [], isLoading } = useQuery<AppointmentWithPatient[]>({
-    queryKey: ["/api/appointments/doctor/1/today"], // Using doctor ID 1 for demo
+    queryKey: ["/api/demo/appointments/doctor/1/today"], // Using doctor ID 1 for demo
   });
 
   if (isLoading) {

@@ -7,7 +7,7 @@ import { PrescriptionSummary } from "@/types";
 
 export default function PrescriptionManagement() {
   const { data: prescriptions = [], isLoading } = useQuery<PrescriptionSummary[]>({
-    queryKey: ["/api/prescriptions/doctor/1"], // Using doctor ID 1 for demo
+    queryKey: ["/api/demo/prescriptions/doctor/1"], // Using doctor ID 1 for demo
   });
 
   // Mock data for demonstration

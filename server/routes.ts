@@ -364,6 +364,127 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Demo routes for development - returns mock data without authentication
+  app.get('/api/demo/dashboard/stats/:doctorId', async (req, res) => {
+    res.json({
+      todayAppointments: 8,
+      activePatients: 142,
+      pendingLabs: 5,
+      aiConsultations: 23
+    });
+  });
+
+  app.get('/api/demo/appointments/doctor/:doctorId/today', async (req, res) => {
+    res.json([
+      {
+        id: 1,
+        patientName: "Dr. Priya Sharma",
+        patientAvatar: "PS",
+        time: "09:00 AM",
+        reason: "Regular Checkup",
+        aadhaar: "****-****-1234",
+        status: "scheduled",
+        type: "in-person"
+      },
+      {
+        id: 2,
+        patientName: "Raj Kumar",
+        patientAvatar: "RK",
+        time: "10:30 AM",
+        reason: "Follow-up Consultation",
+        aadhaar: "****-****-5678",
+        status: "current",
+        type: "telemedicine"
+      },
+      {
+        id: 3,
+        patientName: "Anita Desai",
+        patientAvatar: "AD",
+        time: "02:15 PM",
+        reason: "Diabetes Management",
+        aadhaar: "****-****-9101",
+        status: "scheduled",
+        type: "in-person"
+      }
+    ]);
+  });
+
+  app.get('/api/demo/patients', async (req, res) => {
+    res.json([
+      {
+        id: 1,
+        name: "Dr. Priya Sharma",
+        age: 45,
+        avatar: "PS",
+        aadhaarStatus: "verified",
+        lastVisit: "2024-01-15",
+        insurance: "CGHS"
+      },
+      {
+        id: 2,
+        name: "Raj Kumar",
+        age: 32,
+        avatar: "RK",
+        aadhaarStatus: "verified",
+        lastVisit: "2024-01-10",
+        insurance: "Private"
+      },
+      {
+        id: 3,
+        name: "Anita Desai",
+        age: 58,
+        avatar: "AD",
+        aadhaarStatus: "pending",
+        lastVisit: "2024-01-08",
+        insurance: "ESI"
+      }
+    ]);
+  });
+
+  app.get('/api/demo/medical-records/doctor/:doctorId', async (req, res) => {
+    res.json([
+      {
+        id: 1,
+        patientName: "Dr. Priya Sharma",
+        type: "Consultation",
+        date: "2024-01-15",
+        icon: "FileText",
+        color: "blue"
+      },
+      {
+        id: 2,
+        patientName: "Raj Kumar",
+        type: "Lab Results",
+        date: "2024-01-10",
+        icon: "Activity",
+        color: "green"
+      }
+    ]);
+  });
+
+  app.get('/api/demo/prescriptions/doctor/:doctorId', async (req, res) => {
+    res.json([
+      {
+        id: 1,
+        patientName: "Dr. Priya Sharma",
+        medication: "Metformin",
+        dosage: "500mg",
+        duration: "30 days",
+        date: "2024-01-15",
+        status: "active"
+      },
+      {
+        id: 2,
+        patientName: "Raj Kumar",
+        medication: "Lisinopril",
+        dosage: "10mg",
+        duration: "60 days",
+        date: "2024-01-10",
+        status: "active"
+      }
+    ]);
+  });
+
   // Dashboard routes
   app.get('/api/dashboard/stats/:doctorId', authenticateToken, async (req, res) => {
     try {

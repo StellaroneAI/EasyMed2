@@ -5,7 +5,7 @@ import { DashboardStats } from "@/types";
 
 export default function StatsCards() {
   const { data: stats, isLoading } = useQuery<DashboardStats>({
-    queryKey: ["/api/dashboard/stats/1"], // Using doctor ID 1 for demo
+    queryKey: ["/api/demo/dashboard/stats/1"], // Using doctor ID 1 for demo
   });
 
   if (isLoading) {

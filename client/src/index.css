@@ -68,8 +68,10 @@
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+    @apply font-sans antialiased bg-clinical-bg text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, hsl(210, 20%, 98%) 0%, hsl(210, 15%, 95%) 100%);
+    min-height: 100vh;
   }
 }
 
@@ -116,5 +118,49 @@
   
   .hover\:text-medical-blue:hover {
     color: var(--medical-blue);
+  }
+  
+  /* Professional card styling */
+  .card-professional {
+    @apply bg-white shadow-lg border border-gray-100 backdrop-blur-sm;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  }
+  
+  .card-professional:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+    transform: translateY(-1px);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  /* Professional header styling */
+  .header-glass {
+    @apply bg-white bg-opacity-80 backdrop-blur-md border-b border-gray-200;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Smooth animations */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Professional button hover effects */
+  .btn-healthcare {
+    @apply bg-medical-blue text-white hover:bg-blue-600 transition-all duration-200 shadow-sm;
+  }
+  
+  .btn-healthcare:hover {
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.25);
+    transform: translateY(-1px);
   }
 }

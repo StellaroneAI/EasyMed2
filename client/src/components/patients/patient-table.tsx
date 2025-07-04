@@ -12,7 +12,7 @@ export default function PatientTable() {
   const [searchTerm, setSearchTerm] = useState("");
   
   const { data: patients = [], isLoading } = useQuery<PatientTableData[]>({
-    queryKey: ["/api/patients"],
+    queryKey: ["/api/demo/patients"],
   });
 
   // Mock data for demonstration
