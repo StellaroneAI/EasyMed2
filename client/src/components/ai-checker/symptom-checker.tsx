@@ -61,7 +61,7 @@ export default function SymptomChecker({ onConsultationComplete }: SymptomChecke
 
   const analyzeSymptomsMutation = useMutation({
     mutationFn: async (data: SymptomCheckerFormData) => {
-      const response = await apiRequest("POST", "/api/ai-consultations", {
+      const response = await apiRequest("POST", "/api/demo/ai-consultations", {
         patientId: 1, // Mock patient ID for demo
         symptoms: data.symptoms,
         riskFactors: data.riskFactors,
@@ -77,7 +77,7 @@ export default function SymptomChecker({ onConsultationComplete }: SymptomChecke
         title: "Analysis Complete",
         description: "AI has analyzed your symptoms. Review the results below.",
       });
-      queryClient.invalidateQueries({ queryKey: ["/api/ai-consultations"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/demo/ai-consultations"] });
       onConsultationComplete(consultation);
       form.reset();
       setSelectedSymptoms([]);

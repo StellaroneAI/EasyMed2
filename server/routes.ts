@@ -485,6 +485,102 @@ export async function registerRoutes(app: Express): Promise<Server> {
     ]);
   });
 
+  app.get('/api/demo/doctors', async (req, res) => {
+    res.json([
+      {
+        id: 1,
+        name: "Dr. Sarah Johnson",
+        specialization: "Cardiology",
+        medicalCouncilId: "MC123456"
+      },
+      {
+        id: 2,
+        name: "Dr. Michael Chen",
+        specialization: "Internal Medicine", 
+        medicalCouncilId: "MC789012"
+      },
+      {
+        id: 3,
+        name: "Dr. Emily Rodriguez",
+        specialization: "Pediatrics",
+        medicalCouncilId: "MC345678"
+      }
+    ]);
+  });
+
+  // Demo form submission endpoints
+  app.post('/api/demo/appointments', async (req, res) => {
+    const appointmentData = req.body;
+    res.status(201).json({
+      id: Date.now(),
+      ...appointmentData,
+      status: "scheduled",
+      createdAt: new Date().toISOString()
+    });
+  });
+
+  app.post('/api/demo/patients', async (req, res) => {
+    const patientData = req.body;
+    res.status(201).json({
+      id: Date.now(),
+      ...patientData,
+      aadhaarStatus: "pending",
+      createdAt: new Date().toISOString()
+    });
+  });
+
+  app.post('/api/demo/prescriptions', async (req, res) => {
+    const prescriptionData = req.body;
+    res.status(201).json({
+      id: Date.now(),
+      ...prescriptionData,
+      status: "active",
+      createdAt: new Date().toISOString()
+    });
+  });
+
+  app.post('/api/demo/lab-tests', async (req, res) => {
+    const labTestData = req.body;
+    res.status(201).json({
+      id: Date.now(),
+      ...labTestData,
+      status: "ordered",
+      createdAt: new Date().toISOString()
+    });
+  });
+
+  app.post('/api/demo/ai-consultations', async (req, res) => {
+    const consultationData = req.body;
+    
+    // Simulate AI analysis
+    const mockAnalysis = {
+      possibleConditions: [
+        { condition: "Common Cold", probability: 0.7 },
+        { condition: "Viral Infection", probability: 0.2 },
+        { condition: "Allergic Reaction", probability: 0.1 }
+      ],
+      severity: "Low",
+      urgency: "Non-urgent"
+    };
+
+    const mockRecommendations = [
+      "Rest and stay hydrated",
+      "Monitor symptoms for 48-72 hours",
+      "Consider over-the-counter remedies if needed",
+      "Seek medical attention if symptoms worsen"
+    ];
+
+    res.status(201).json({
+      id: Date.now(),
+      ...consultationData,
+      aiAnalysis: mockAnalysis,
+      recommendedActions: mockRecommendations,
+      confidenceScore: "0.75",
+      status: "completed",
+      createdAt: new Date().toISOString()
+    });
+  });
+
   // Dashboard routes
   app.get('/api/dashboard/stats/:doctorId', authenticateToken, async (req, res) => {
     try {

@@ -28,12 +28,12 @@ export default function AppointmentForm() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: patients = [] } = useQuery({
-    queryKey: ["/api/patients"],
+  const { data: patients = [] } = useQuery<any[]>({
+    queryKey: ["/api/demo/patients"],
   });
 
-  const { data: doctors = [] } = useQuery({
-    queryKey: ["/api/doctors"],
+  const { data: doctors = [] } = useQuery<any[]>({
+    queryKey: ["/api/demo/doctors"],
   });
 
   const form = useForm<AppointmentFormData>({
@@ -54,7 +54,7 @@ export default function AppointmentForm() {
     mutationFn: async (data: AppointmentFormData) => {
       const appointmentDateTime = new Date(`${data.appointmentDate}T${data.appointmentTime}`);
       
-      const response = await apiRequest("POST", "/api/appointments", {
+      const response = await apiRequest("POST", "/api/demo/appointments", {
         patientId: parseInt(data.patientId),
         doctorId: parseInt(data.doctorId),
         appointmentDate: appointmentDateTime,
@@ -71,12 +71,12 @@ export default function AppointmentForm() {
         title: "Success",
         description: "Appointment scheduled successfully",
       });
-      queryClient.invalidateQueries({ queryKey: ["/api/appointments"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/demo/appointments"] });
       form.reset();
     },
     onError: (error: any) => {
       toast({
-        title: "Error",
+        title: "Error", 
         description: error.message || "Failed to schedule appointment",
         variant: "destructive",
       });
@@ -102,9 +102,9 @@ export default function AppointmentForm() {
                   <SelectValue placeholder="Select patient" />
                 </SelectTrigger>
                 <SelectContent>
-                  {patients.map((patient: any) => (
+                  {(patients as any[]).map((patient) => (
                     <SelectItem key={patient.id} value={patient.id.toString()}>
-                      {patient.user?.firstName} {patient.user?.lastName}
+                      {patient.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -121,9 +121,9 @@ export default function AppointmentForm() {
                   <SelectValue placeholder="Select doctor" />
                 </SelectTrigger>
                 <SelectContent>
-                  {doctors.map((doctor: any) => (
+                  {(doctors as any[]).map((doctor) => (
                     <SelectItem key={doctor.id} value={doctor.id.toString()}>
-                      Dr. {doctor.user?.firstName} {doctor.user?.lastName} - {doctor.specialization}
+                      {doctor.name} - {doctor.specialization}
                     </SelectItem>
                   ))}
                 </SelectContent>

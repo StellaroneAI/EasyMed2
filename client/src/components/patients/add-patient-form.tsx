@@ -55,41 +55,29 @@ export default function AddPatientForm() {
 
   const createPatientMutation = useMutation({
     mutationFn: async (data: PatientFormData) => {
-      // First create user
-      const userResponse = await apiRequest("POST", "/api/auth/register", {
-        username: data.email,
+      const response = await apiRequest("POST", "/api/demo/patients", {
+        name: `${data.firstName} ${data.lastName}`,
         email: data.email,
-        password: "temporary123", // In real app, handle this properly
-        role: "patient",
-        firstName: data.firstName,
-        lastName: data.lastName,
         phoneNumber: data.phoneNumber,
-      });
-
-      const user = await userResponse.json();
-
-      // Then create patient profile
-      const patientResponse = await apiRequest("POST", "/api/patients", {
-        userId: user.user.id,
-        aadhaarNumber: data.aadhaarNumber,
-        dateOfBirth: new Date(data.dateOfBirth),
+        dateOfBirth: data.dateOfBirth,
         gender: data.gender,
         bloodGroup: data.bloodGroup,
-        emergencyContact: data.emergencyContact,
+        aadhaarNumber: data.aadhaarNumber,
         address: data.address,
+        emergencyContact: data.emergencyContact,
         insuranceProvider: data.insuranceProvider,
         insuranceNumber: data.insuranceNumber,
         allergies: data.allergies,
       });
 
-      return patientResponse.json();
+      return response.json();
     },
     onSuccess: () => {
       toast({
         title: "Success",
         description: "Patient added successfully",
       });
-      queryClient.invalidateQueries({ queryKey: ["/api/patients"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/demo/patients"] });
       form.reset();
     },
     onError: (error: any) => {
