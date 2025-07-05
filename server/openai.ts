@@ -153,4 +153,4 @@ export async function getHealthInsights(symptoms: string[], patientHistory?: str
       "Regular check-ups with healthcare providers support preventive care."
     ];
   }
-}
+} 
