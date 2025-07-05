@@ -1,8 +1,8 @@
-# MedConnect - Digital Healthcare Platform
+# EasyMed - Digital Healthcare Platform
 
 ## Overview
 
-MedConnect is a comprehensive digital healthcare platform designed to modernize medical practice management. It provides doctors with tools for patient management, appointment scheduling, medical records, lab test coordination, and AI-powered diagnostic assistance. The application streamlines healthcare workflows while maintaining compliance with medical data standards and improving patient care delivery.
+EasyMed is a comprehensive digital healthcare platform designed to modernize medical practice management. It provides doctors with tools for patient management, appointment scheduling, medical records, lab test coordination, and AI-powered diagnostic assistance. The application streamlines healthcare workflows while maintaining compliance with medical data standards and improving patient care delivery.
 
 ## System Architecture
 
