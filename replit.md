@@ -132,8 +132,18 @@ EasyMed is a comprehensive digital healthcare platform designed to modernize med
 - `NODE_ENV`: Environment specification (development/production)
 
 ## Changelog
+- July 16, 2025. Added comprehensive Indian healthcare features including multilingual voice assistant (Hindi, Tamil, Telugu), family health management, Aadhaar integration, insurance verification, and 108 emergency services
 - July 16, 2025. Successfully migrated from Replit Agent to Replit environment with PostgreSQL database
 - July 04, 2025. Initial setup
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
+
+## Indian Healthcare Features Added
+- **Multilingual Voice Assistant**: Support for English, Hindi, Tamil, Telugu with native voice synthesis
+- **108 Emergency Services**: Integration with Indian ambulance service with multilingual responses
+- **Aadhaar Integration**: Patient verification and lookup using Indian national ID
+- **Family Health Management**: Multi-member health profiles with Indian language support
+- **Insurance Integration**: CGHS and other Indian healthcare insurance verification
+- **Floating Voice Button**: One-click voice commands for hands-free navigation
+- **Indian Language UI**: Language selector with support for 4 Indian languages

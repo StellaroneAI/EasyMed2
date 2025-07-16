@@ -1,8 +1,14 @@
 import { Link, useLocation } from "wouter";
-import { Bell, ChevronDown, Heart } from "lucide-react";
+import { Bell, ChevronDown, Heart, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard" },
@@ -11,6 +17,7 @@ const navigation = [
   { name: "Records", href: "/records" },
   { name: "Lab Tests", href: "/lab-tests" },
   { name: "AI Checker", href: "/ai-checker" },
+  { name: "Family Health", href: "/family" },
 ];
 
 export default function Header() {
@@ -26,7 +33,7 @@ export default function Header() {
               <div className="w-8 h-8 bg-medical-blue rounded-lg flex items-center justify-center">
                 <Heart className="w-4 h-4 text-white" />
               </div>
-              <span className="text-xl font-bold text-charcoal">MedConnect</span>
+              <span className="text-xl font-bold text-charcoal">EasyMed</span>
             </Link>
           </div>
 
@@ -52,6 +59,39 @@ export default function Header() {
 
           {/* User Profile */}
           <div className="flex items-center space-x-4">
+            {/* Language Selector */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  <Globe className="h-4 w-4 mr-2" />
+                  <span className="hidden sm:inline">English</span>
+                  <ChevronDown className="h-3 w-3 ml-1" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>
+                  <span className="flex items-center">
+                    🇮🇳 English
+                  </span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <span className="flex items-center">
+                    🇮🇳 हिंदी (Hindi)
+                  </span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <span className="flex items-center">
+                    🇮🇳 தமிழ் (Tamil)
+                  </span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <span className="flex items-center">
+                    🇮🇳 తెలుగు (Telugu)
+                  </span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <Button variant="ghost" size="sm" className="relative">
               <Bell className="h-5 w-5 text-gray-400" />
               <Badge variant="destructive" className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 text-xs">

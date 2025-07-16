@@ -639,30 +639,59 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Voice Assistant endpoint (mentioned in README)
+  // Multilingual Voice Assistant endpoint for Indian languages
   app.post('/api/voice-assistant', authenticateToken, async (req, res) => {
     try {
       const { transcript, language, context } = req.body;
       
-      // Simple intent recognition for healthcare commands
-      const intents = {
-        'go to appointments': { action: 'navigate', target: '/appointments' },
-        'check symptoms': { action: 'navigate', target: '/ai-checker' },
-        'emergency': { action: 'emergency', target: 'call_108' },
-        'call 108': { action: 'emergency', target: 'call_108' },
-        'book appointment': { action: 'navigate', target: '/appointments' },
-        'find doctor': { action: 'navigate', target: '/doctors' },
-        'health records': { action: 'navigate', target: '/records' },
-        'family health': { action: 'navigate', target: '/family' },
-        'open settings': { action: 'navigate', target: '/settings' },
-        'change language': { action: 'navigate', target: '/settings' }
+      // Multilingual intent recognition for Indian healthcare
+      const multilingualIntents = {
+        english: {
+          'go to appointments': { action: 'navigate', target: '/appointments', response: 'Opening appointments' },
+          'check symptoms': { action: 'navigate', target: '/ai-checker', response: 'Opening symptom checker' },
+          'emergency': { action: 'emergency', target: 'call_108', response: 'Calling emergency services' },
+          'call 108': { action: 'emergency', target: 'call_108', response: 'Calling 108 ambulance service' },
+          'book appointment': { action: 'navigate', target: '/appointments', response: 'Opening appointment booking' },
+          'find doctor': { action: 'navigate', target: '/doctors', response: 'Showing available doctors' },
+          'health records': { action: 'navigate', target: '/records', response: 'Opening health records' },
+          'family health': { action: 'navigate', target: '/family', response: 'Opening family health' },
+          'medicine reminder': { action: 'navigate', target: '/prescriptions', response: 'Opening medicine reminders' }
+        },
+        hindi: {
+          'अपॉइंटमेंट पर जाएं': { action: 'navigate', target: '/appointments', response: 'अपॉइंटमेंट खोल रहे हैं' },
+          'लक्षण जांचें': { action: 'navigate', target: '/ai-checker', response: 'लक्षण चेकर खोल रहे हैं' },
+          'आपातकाल': { action: 'emergency', target: 'call_108', response: 'आपातकालीन सेवा बुला रहे हैं' },
+          '108 कॉल करें': { action: 'emergency', target: 'call_108', response: '108 एम्बुलेंस सेवा बुला रहे हैं' },
+          'डॉक्टर खोजें': { action: 'navigate', target: '/doctors', response: 'उपलब्ध डॉक्टर दिखा रहे हैं' },
+          'स्वास्थ्य रिकॉर्ड': { action: 'navigate', target: '/records', response: 'स्वास्थ्य रिकॉर्ड खोल रहे हैं' },
+          'दवा रिमाइंडर': { action: 'navigate', target: '/prescriptions', response: 'दवा रिमाइंडर खोल रहे हैं' }
+        },
+        tamil: {
+          'சந்திப்புகளுக்கு செல்': { action: 'navigate', target: '/appointments', response: 'சந்திப்புகளைத் திறக்கிறோம்' },
+          'அறிகுறிகளைச் சரிபார்': { action: 'navigate', target: '/ai-checker', response: 'அறிகுறி சரிபார்ப்பாளரைத் திறக்கிறோம்' },
+          'அவசரநிலை': { action: 'emergency', target: 'call_108', response: 'அவசர சேவையை அழைக்கிறோம்' },
+          '108 அழைக்கவும்': { action: 'emergency', target: 'call_108', response: '108 ஆம்புலன்ஸ் சேவையை அழைக்கிறோம்' },
+          'மருத்துவர் கண்டுபிடி': { action: 'navigate', target: '/doctors', response: 'கிடைக்கும் மருத்துவர்களைக் காட்டுகிறோம்' },
+          'உடல்நலம் பதிவுகள்': { action: 'navigate', target: '/records', response: 'உடல்நலம் பதிவுகளைத் திறக்கிறோம்' }
+        },
+        telugu: {
+          'అపాయింట్‌మెంట్‌లకు వెళ్లండి': { action: 'navigate', target: '/appointments', response: 'అపాయింట్‌మెంట్‌లను తెరుస్తున్నాం' },
+          'లక్షణాలు తనిఖీ చేయండి': { action: 'navigate', target: '/ai-checker', response: 'లక్షణ చెకర్‌ను తెరుస్తున్నాం' },
+          'అత్యవసరం': { action: 'emergency', target: 'call_108', response: 'అత్యవసర సేవలను పిలుస్తున్నాం' },
+          '108 కాల్ చేయండి': { action: 'emergency', target: 'call_108', response: '108 అంబులెన్స్ సేవను పిలుస్తున్నాం' },
+          'వైద్యుడిని కనుగొనండి': { action: 'navigate', target: '/doctors', response: 'అందుబాటులో ఉన్న వైద్యులను చూపిస్తున్నాం' },
+          'ఆరోగ్య రికార్డులు': { action: 'navigate', target: '/records', response: 'ఆరోగ్య రికార్డులను తెరుస్తున్నాం' }
+        }
       };
 
+      const selectedLanguage = language || 'english';
+      const intents = multilingualIntents[selectedLanguage] || multilingualIntents.english;
+      
       const lowerTranscript = transcript.toLowerCase();
       let matchedIntent = null;
 
       for (const [command, intent] of Object.entries(intents)) {
-        if (lowerTranscript.includes(command)) {
+        if (lowerTranscript.includes(command.toLowerCase())) {
           matchedIntent = intent;
           break;
         }
@@ -672,14 +701,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
         res.json({
           success: true,
           intent: matchedIntent,
-          response: `Command recognized: ${transcript}`,
-          language: language || 'english'
+          response: matchedIntent.response,
+          language: selectedLanguage,
+          transcript: transcript
         });
       } else {
+        const fallbackMessages = {
+          english: "Sorry, I didn't understand that command. Try saying 'go to appointments' or 'check symptoms'.",
+          hindi: "खुशी, मैं वह कमांड समझ नहीं पाया। 'अपॉइंटमेंट पर जाएं' या 'लक्षण जांचें' कहने की कोशिश करें।",
+          tamil: "மன்னிக்கவும், அந்த கட்டளையை என்னால் புரிந்து கொள்ள முடியவில்லை। 'சந்திப்புகளுக்கு செல்' அல்லது 'அறிகுறிகளைச் சரிபார்' என்று சொல்ல முயற்சி செய்யுங்கள்।",
+          telugu: "క్షమించండి, ఆ కమాండ్ నాకు అర్థం కాలేదు. 'అపాయింట్‌మెంట్‌లకు వెళ్లండి' లేదా 'లక్షణాలు తనిఖీ చేయండి' అని చెప్పడానికి ప్రయత్నించండి."
+        };
+        
         res.json({
           success: false,
-          message: "Sorry, I didn't understand that command. Try saying 'go to appointments' or 'check symptoms'.",
-          language: language || 'english'
+          message: fallbackMessages[selectedLanguage] || fallbackMessages.english,
+          language: selectedLanguage
         });
       }
     } catch (error) {
@@ -687,12 +724,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Emergency 108 service endpoint (mentioned in README)
+  // Indian Emergency 108 service endpoint with multilingual support
   app.post('/api/emergency/108', authenticateToken, async (req, res) => {
     try {
-      const { patientId, location, emergency_type } = req.body;
+      const { patientId, location, emergency_type, language } = req.body;
       
-      // In a real implementation, this would integrate with actual emergency services
+      // In a real implementation, this would integrate with actual Indian emergency services
       const emergencyCall = {
         id: Date.now(),
         patientId,
@@ -700,13 +737,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
         emergency_type: emergency_type || "Medical Emergency",
         status: "dispatched",
         call_time: new Date().toISOString(),
-        estimated_arrival: "15-20 minutes"
+        estimated_arrival: "15-20 minutes",
+        ambulance_type: "108 Free Ambulance Service",
+        contact_number: "108"
+      };
+
+      const responseMessages = {
+        english: "Emergency services contacted. 108 ambulance is on the way.",
+        hindi: "आपातकालीन सेवाओं से संपर्क किया गया। 108 एम्बुलेंस रास्ते में है।",
+        tamil: "அவசர சேவைகளைத் தொடர்பு கொண்டோம். 108 ஆம்புலன்ஸ் வருகிறது.",
+        telugu: "అత్యవసర సేవలను సంప్రదించాము. 108 అంబులెన్స్ రాబోతోంది."
       };
 
       res.json({
         success: true,
-        message: "Emergency services contacted. Help is on the way.",
-        call_details: emergencyCall
+        message: responseMessages[language || 'english'] || responseMessages.english,
+        call_details: emergencyCall,
+        instructions: {
+          english: "Stay calm. Keep the patient stable. Do not move if spinal injury is suspected.",
+          hindi: "शांत रहें। रोगी को स्थिर रखें। रीढ़ की चोट का संदेह हो तो हिलाएं नहीं।",
+          tamil: "அமைதியாக இருங்கள். நோயாளியை நிலையாக வைத்திருங்கள். முதுகுத்தண்டு காயம் சந்தேகம் இருந்தால் நகர்த்த வேண்டாம்।",
+          telugu: "ప్రశాంతంగా ఉండండి. రోగిని స్థిరంగా ఉంచండి. వెన్నెముక గాయం అనుమానం ఉంటే కదిలించవద్దు."
+        }
       });
     } catch (error) {
       res.status(500).json({ message: 'Emergency service error', error });
@@ -746,6 +798,117 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       res.status(500).json({ message: 'Failed to get patient data', error });
+    }
+  });
+
+  // Family Health Management endpoints for Indian healthcare
+  app.post('/api/family-members', authenticateToken, async (req: any, res) => {
+    try {
+      const { patientId, name, relation, age, aadhaarNumber, bloodGroup, allergies } = req.body;
+      
+      // In a real implementation, this would create family member records
+      const familyMember = {
+        id: Date.now(),
+        patientId,
+        name,
+        relation,
+        age,
+        aadhaarNumber: aadhaarNumber || null,
+        bloodGroup: bloodGroup || "Unknown",
+        allergies: allergies || [],
+        emergencyContact: true,
+        createdAt: new Date().toISOString()
+      };
+
+      res.status(201).json(familyMember);
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to add family member', error });
+    }
+  });
+
+  app.get('/api/family-members/:patientId', authenticateToken, async (req, res) => {
+    try {
+      // Mock family members for demo
+      const familyMembers = [
+        {
+          id: 1,
+          name: "राधा शर्मा",
+          relation: "Mother",
+          age: 58,
+          bloodGroup: "O+",
+          aadhaarVerified: true,
+          healthStatus: "Good",
+          lastCheckup: "2024-01-10"
+        },
+        {
+          id: 2,
+          name: "அருண் குமார்",
+          relation: "Father", 
+          age: 62,
+          bloodGroup: "B+",
+          aadhaarVerified: true,
+          healthStatus: "Diabetes monitoring",
+          lastCheckup: "2024-01-08"
+        }
+      ];
+
+      res.json(familyMembers);
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to get family members', error });
+    }
+  });
+
+  // Insurance and Claims Management (Indian healthcare context)
+  app.post('/api/insurance/verify-eligibility', authenticateToken, async (req, res) => {
+    try {
+      const { aadhaarNumber, insuranceProvider, policyNumber } = req.body;
+      
+      // Mock insurance verification for Indian providers
+      const eligibilityCheck = {
+        eligible: true,
+        provider: insuranceProvider || "CGHS",
+        policyNumber: policyNumber || "POL123456789",
+        coverageAmount: "₹5,00,000",
+        validUntil: "2025-03-31",
+        networkHospitals: 2500,
+        claimsUsed: "₹45,000",
+        remainingCoverage: "₹4,55,000"
+      };
+
+      res.json(eligibilityCheck);
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to verify insurance eligibility', error });
+    }
+  });
+
+  // Aadhaar-based patient lookup (Indian healthcare)
+  app.post('/api/patients/lookup-aadhaar', authenticateToken, async (req, res) => {
+    try {
+      const { aadhaarNumber } = req.body;
+      
+      // Mock Aadhaar-based patient lookup
+      if (aadhaarNumber && aadhaarNumber.length === 12) {
+        const patient = {
+          found: true,
+          patient: {
+            id: 1,
+            name: "प्रिया शर्मा",
+            age: 35,
+            aadhaarNumber: aadhaarNumber,
+            verified: true,
+            address: "Mumbai, Maharashtra",
+            emergencyContact: "+91-9876543210",
+            bloodGroup: "A+",
+            allergies: ["Penicillin"],
+            chronicConditions: ["Hypertension"]
+          }
+        };
+        res.json(patient);
+      } else {
+        res.status(404).json({ found: false, message: "Patient not found with provided Aadhaar number" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to lookup patient', error });
     }
   });
 
