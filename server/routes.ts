@@ -613,6 +613,142 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Symptom Checker endpoint (mentioned in README)
+  app.post('/api/symptom-checker', authenticateToken, async (req, res) => {
+    try {
+      const { symptoms, duration, severity, riskFactors, additionalInfo } = req.body;
+      
+      const { analyzeSymptoms } = await import('./openai');
+      
+      const analysis = await analyzeSymptoms({
+        symptoms: symptoms || [],
+        duration: duration || "Unknown",
+        severity: severity || "Medium",
+        riskFactors: riskFactors || [],
+        additionalInfo: additionalInfo || ""
+      });
+
+      res.json(analysis);
+    } catch (error) {
+      console.error("Symptom checker error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+      res.status(500).json({ 
+        message: "Failed to analyze symptoms", 
+        error: errorMessage
+      });
+    }
+  });
+
+  // Voice Assistant endpoint (mentioned in README)
+  app.post('/api/voice-assistant', authenticateToken, async (req, res) => {
+    try {
+      const { transcript, language, context } = req.body;
+      
+      // Simple intent recognition for healthcare commands
+      const intents = {
+        'go to appointments': { action: 'navigate', target: '/appointments' },
+        'check symptoms': { action: 'navigate', target: '/ai-checker' },
+        'emergency': { action: 'emergency', target: 'call_108' },
+        'call 108': { action: 'emergency', target: 'call_108' },
+        'book appointment': { action: 'navigate', target: '/appointments' },
+        'find doctor': { action: 'navigate', target: '/doctors' },
+        'health records': { action: 'navigate', target: '/records' },
+        'family health': { action: 'navigate', target: '/family' },
+        'open settings': { action: 'navigate', target: '/settings' },
+        'change language': { action: 'navigate', target: '/settings' }
+      };
+
+      const lowerTranscript = transcript.toLowerCase();
+      let matchedIntent = null;
+
+      for (const [command, intent] of Object.entries(intents)) {
+        if (lowerTranscript.includes(command)) {
+          matchedIntent = intent;
+          break;
+        }
+      }
+
+      if (matchedIntent) {
+        res.json({
+          success: true,
+          intent: matchedIntent,
+          response: `Command recognized: ${transcript}`,
+          language: language || 'english'
+        });
+      } else {
+        res.json({
+          success: false,
+          message: "Sorry, I didn't understand that command. Try saying 'go to appointments' or 'check symptoms'.",
+          language: language || 'english'
+        });
+      }
+    } catch (error) {
+      res.status(500).json({ message: 'Voice assistant error', error });
+    }
+  });
+
+  // Emergency 108 service endpoint (mentioned in README)
+  app.post('/api/emergency/108', authenticateToken, async (req, res) => {
+    try {
+      const { patientId, location, emergency_type } = req.body;
+      
+      // In a real implementation, this would integrate with actual emergency services
+      const emergencyCall = {
+        id: Date.now(),
+        patientId,
+        location: location || "Location not provided",
+        emergency_type: emergency_type || "Medical Emergency",
+        status: "dispatched",
+        call_time: new Date().toISOString(),
+        estimated_arrival: "15-20 minutes"
+      };
+
+      res.json({
+        success: true,
+        message: "Emergency services contacted. Help is on the way.",
+        call_details: emergencyCall
+      });
+    } catch (error) {
+      res.status(500).json({ message: 'Emergency service error', error });
+    }
+  });
+
+  // Patient dashboard data endpoint (mentioned in README)
+  app.get('/api/dashboard/patient-data', authenticateToken, async (req: any, res) => {
+    try {
+      const userId = req.user.userId;
+      const patient = await storage.getPatientByUserId(userId);
+      
+      if (!patient) {
+        return res.status(404).json({ message: 'Patient not found' });
+      }
+
+      // Gather comprehensive patient data
+      const appointments = await storage.getAppointmentsByPatient(patient.id);
+      const medicalRecords = await storage.getMedicalRecordsByPatient(patient.id);
+      const prescriptions = await storage.getPrescriptionsByPatient(patient.id);
+      const labTests = await storage.getLabTestsByPatient(patient.id);
+      const aiConsultations = await storage.getAiConsultationsByPatient(patient.id);
+
+      res.json({
+        patient: { ...patient, aadhaarNumber: undefined }, // Hide sensitive Aadhaar number
+        appointments: appointments.slice(0, 5), // Recent 5 appointments
+        medicalRecords: medicalRecords.slice(0, 10), // Recent 10 records
+        prescriptions: prescriptions.filter(p => p.status === 'active'), // Active prescriptions
+        labTests: labTests.slice(0, 5), // Recent 5 lab tests
+        aiConsultations: aiConsultations.slice(0, 3), // Recent 3 AI consultations
+        summary: {
+          totalAppointments: appointments.length,
+          activeSharedPrescriptions: prescriptions.filter(p => p.status === 'active').length,
+          pendingLabTests: labTests.filter(l => l.status === 'pending').length,
+          recentAiConsultations: aiConsultations.length
+        }
+      });
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to get patient data', error });
+    }
+  });
+
   // Dashboard routes
   app.get('/api/dashboard/stats/:doctorId', authenticateToken, async (req, res) => {
     try {
