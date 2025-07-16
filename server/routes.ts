@@ -553,8 +553,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const consultationData = req.body;
       
-      // Import OpenAI service
-      const { analyzeSymptoms } = await import('./openai');
+      // Import Gemini AI service
+      const { analyzeSymptoms } = await import('./gemini');
       
       // Perform real AI analysis
       const analysis = await analyzeSymptoms({
@@ -590,12 +590,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Health insights endpoint using OpenAI
+  // Health insights endpoint using Gemini AI
   app.post('/api/demo/health-insights', async (req, res) => {
     try {
       const { symptoms, patientHistory } = req.body;
       
-      const { getHealthInsights } = await import('./openai');
+      const { getHealthInsights } = await import('./gemini');
       
       const insights = await getHealthInsights(symptoms || [], patientHistory);
       
@@ -618,7 +618,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { symptoms, duration, severity, riskFactors, additionalInfo } = req.body;
       
-      const { analyzeSymptoms } = await import('./openai');
+      const { analyzeSymptoms } = await import('./gemini');
       
       const analysis = await analyzeSymptoms({
         symptoms: symptoms || [],
@@ -634,6 +634,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
       res.status(500).json({ 
         message: "Failed to analyze symptoms", 
+        error: errorMessage
+      });
+    }
+  });
+
+  // Multilingual symptom analysis for Indian languages
+  app.post('/api/multilingual-symptom-analysis', authenticateToken, async (req, res) => {
+    try {
+      const { symptoms, language, duration, severity } = req.body;
+      
+      const { analyzeMultilingualSymptoms } = await import('./gemini');
+      
+      const analysis = await analyzeMultilingualSymptoms(
+        symptoms || [], 
+        language || 'english'
+      );
+      
+      res.json(analysis);
+    } catch (error) {
+      console.error("Multilingual symptom analysis error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+      res.status(500).json({ 
+        message: "Failed to analyze symptoms in requested language", 
         error: errorMessage
       });
     }
