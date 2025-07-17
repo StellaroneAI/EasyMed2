@@ -9,19 +9,32 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-const navigation = [
-  { name: "Dashboard", href: "/dashboard" },
-  { name: "Patients", href: "/patients" },
-  { name: "Appointments", href: "/appointments" },
-  { name: "Records", href: "/records" },
-  { name: "Lab Tests", href: "/lab-tests" },
-  { name: "AI Checker", href: "/ai-checker" },
-  { name: "Family Health", href: "/family" },
-];
+import { useLanguage, type Language } from "@/contexts/language-context";
 
 export default function Header() {
   const [location] = useLocation();
+  const { language, setLanguage, t } = useLanguage();
+
+  const navigation = [
+    { name: t("nav.dashboard"), href: "/dashboard" },
+    { name: t("nav.patients"), href: "/patients" },
+    { name: t("nav.appointments"), href: "/appointments" },
+    { name: t("nav.records"), href: "/records" },
+    { name: t("nav.labTests"), href: "/lab-tests" },
+    { name: t("nav.aiChecker"), href: "/ai-checker" },
+    { name: t("nav.family"), href: "/family" },
+  ];
+
+  const languages = [
+    { key: "english" as Language, label: t("language.english") },
+    { key: "hindi" as Language, label: t("language.hindi") },
+    { key: "tamil" as Language, label: t("language.tamil") },
+    { key: "telugu" as Language, label: t("language.telugu") },
+  ];
+
+  const getCurrentLanguageLabel = () => {
+    return languages.find(lang => lang.key === language)?.label || "English";
+  };
 
   return (
     <header className="header-glass sticky top-0 z-50">
@@ -64,31 +77,22 @@ export default function Header() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm">
                   <Globe className="h-4 w-4 mr-2" />
-                  <span className="hidden sm:inline">English</span>
+                  <span className="hidden sm:inline">{getCurrentLanguageLabel()}</span>
                   <ChevronDown className="h-3 w-3 ml-1" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>
-                  <span className="flex items-center">
-                    🇮🇳 English
-                  </span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span className="flex items-center">
-                    🇮🇳 हिंदी (Hindi)
-                  </span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span className="flex items-center">
-                    🇮🇳 தமிழ் (Tamil)
-                  </span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span className="flex items-center">
-                    🇮🇳 తెలుగు (Telugu)
-                  </span>
-                </DropdownMenuItem>
+                {languages.map((lang) => (
+                  <DropdownMenuItem
+                    key={lang.key}
+                    onClick={() => setLanguage(lang.key)}
+                    className={language === lang.key ? "bg-medical-blue/10" : ""}
+                  >
+                    <span className="flex items-center">
+                      🇮🇳 {lang.label}
+                    </span>
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuContent>
             </DropdownMenu>
 

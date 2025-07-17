@@ -1,9 +1,9 @@
 import { Switch, Route, useLocation } from "wouter";
-import { useState } from "react";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { LanguageProvider, useLanguage } from "@/contexts/language-context";
 import NotFound from "@/pages/not-found";
 import Dashboard from "@/pages/dashboard";
 import Patients from "@/pages/patients";
@@ -17,7 +17,7 @@ import VoiceAssistantButton from "@/components/voice/voice-assistant-button";
 
 function Router() {
   const [, setLocation] = useLocation();
-  const [language, setLanguage] = useState<"english" | "hindi" | "tamil" | "telugu">("english");
+  const { language } = useLanguage();
 
   const handleVoiceNavigation = (path: string) => {
     setLocation(path);
@@ -51,8 +51,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <Router />
+        <LanguageProvider>
+          <Toaster />
+          <Router />
+        </LanguageProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

@@ -6,13 +6,15 @@ import RecentActivities from "@/components/dashboard/recent-activities";
 import PatientTable from "@/components/patients/patient-table";
 import MedicalRecords from "@/components/records/medical-records";
 import PrescriptionManagement from "@/components/prescriptions/prescription-management";
+import { useLanguage } from "@/contexts/language-context";
 
 export default function Dashboard() {
+  const { t } = useLanguage();
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Welcome Section */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-charcoal mb-2">Welcome back, Dr. Johnson</h1>
+        <h1 className="text-3xl font-bold text-charcoal mb-2">{t("dashboard.title")}</h1>
         <p className="text-gray-600">Here's what's happening with your practice today.</p>
       </div>
 

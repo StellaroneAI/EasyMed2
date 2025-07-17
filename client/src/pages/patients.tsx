@@ -9,8 +9,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Search, Plus, CheckCircle, Clock, Users, UserCheck, AlertTriangle } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import AddPatientForm from "@/components/patients/add-patient-form";
+import { useLanguage } from "@/contexts/language-context";
 
 export default function Patients() {
+  const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddPatientOpen, setIsAddPatientOpen] = useState(false);
 
