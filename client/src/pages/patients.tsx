@@ -111,7 +111,7 @@ export default function Patients() {
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-charcoal mb-2">Patient Management</h1>
+        <h1 className="text-3xl font-bold text-charcoal mb-2">{t("patients.title")}</h1>
         <p className="text-gray-600">Manage patient records with Aadhaar integration and comprehensive healthcare data.</p>
       </div>
 
@@ -121,7 +121,7 @@ export default function Patients() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Patients</p>
+                <p className="text-sm font-medium text-gray-600">{t("patients.totalPatients")}</p>
                 <p className="text-3xl font-bold text-charcoal mt-2">{totalPatients}</p>
               </div>
               <div className="w-12 h-12 bg-medical-blue bg-opacity-10 rounded-lg flex items-center justify-center">
@@ -135,7 +135,7 @@ export default function Patients() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Aadhaar Verified</p>
+                <p className="text-sm font-medium text-gray-600">{t("patients.aadhaarVerified")}</p>
                 <p className="text-3xl font-bold text-charcoal mt-2">{verifiedPatients}</p>
               </div>
               <div className="w-12 h-12 bg-health-green bg-opacity-10 rounded-lg flex items-center justify-center">
@@ -149,7 +149,7 @@ export default function Patients() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Pending Verification</p>
+                <p className="text-sm font-medium text-gray-600">{t("patients.pendingVerification")}</p>
                 <p className="text-3xl font-bold text-charcoal mt-2">{pendingVerification}</p>
               </div>
               <div className="w-12 h-12 bg-yellow-500 bg-opacity-10 rounded-lg flex items-center justify-center">
@@ -164,12 +164,12 @@ export default function Patients() {
       <Card className="bg-white shadow-sm border border-gray-200">
         <CardHeader className="border-b border-gray-200">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-lg font-semibold text-charcoal">Patients</CardTitle>
+            <CardTitle className="text-lg font-semibold text-charcoal">{t("nav.patients")}</CardTitle>
             <div className="flex items-center space-x-3">
               <div className="relative">
                 <Input
                   type="text"
-                  placeholder="Search patients..."
+                  placeholder={t("patients.searchPatients")}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10 pr-4 py-2"
@@ -180,12 +180,12 @@ export default function Patients() {
                 <DialogTrigger asChild>
                   <Button className="bg-medical-blue hover:bg-blue-700">
                     <Plus className="w-4 h-4 mr-2" />
-                    Add Patient
+                    {t("patients.addPatient")}
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
                   <DialogHeader>
-                    <DialogTitle>Add New Patient</DialogTitle>
+                    <DialogTitle>{t("patients.addPatient")}</DialogTitle>
                   </DialogHeader>
                   <AddPatientForm />
                 </DialogContent>

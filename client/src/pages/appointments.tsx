@@ -8,8 +8,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Calendar, Clock, Video, Users, CalendarPlus, Plus, CheckCircle, AlertCircle } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import AppointmentForm from "@/components/appointments/appointment-form";
+import { useLanguage } from "@/contexts/language-context";
 
 export default function Appointments() {
+  const { t } = useLanguage();
   const [isAddAppointmentOpen, setIsAddAppointmentOpen] = useState(false);
 
   const { data: appointments = [], isLoading } = useQuery({
@@ -164,7 +166,7 @@ export default function Appointments() {
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-charcoal mb-2">Appointments</h1>
+        <h1 className="text-3xl font-bold text-charcoal mb-2">{t("appointments.title")}</h1>
         <p className="text-gray-600">Manage patient appointments with telemedicine support and scheduling.</p>
       </div>
 
@@ -174,7 +176,7 @@ export default function Appointments() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Appointments</p>
+                <p className="text-sm font-medium text-gray-600">{t("appointments.totalAppointments")}</p>
                 <p className="text-3xl font-bold text-charcoal mt-2">{totalAppointments}</p>
               </div>
               <div className="w-12 h-12 bg-medical-blue bg-opacity-10 rounded-lg flex items-center justify-center">
@@ -188,7 +190,7 @@ export default function Appointments() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Today's Appointments</p>
+                <p className="text-sm font-medium text-gray-600">{t("dashboard.todayAppointments")}</p>
                 <p className="text-3xl font-bold text-charcoal mt-2">{todayCount}</p>
               </div>
               <div className="w-12 h-12 bg-health-green bg-opacity-10 rounded-lg flex items-center justify-center">
@@ -202,7 +204,7 @@ export default function Appointments() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Telemedicine</p>
+                <p className="text-sm font-medium text-gray-600">{t("appointments.telemedicine")}</p>
                 <p className="text-3xl font-bold text-charcoal mt-2">{telemedicineCount}</p>
               </div>
               <div className="w-12 h-12 bg-digital-purple bg-opacity-10 rounded-lg flex items-center justify-center">
@@ -220,17 +222,17 @@ export default function Appointments() {
           <Card className="bg-white shadow-sm border border-gray-200">
             <CardHeader className="border-b border-gray-200">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-lg font-semibold text-charcoal">Appointments</CardTitle>
+                <CardTitle className="text-lg font-semibold text-charcoal">{t("nav.appointments")}</CardTitle>
                 <Dialog open={isAddAppointmentOpen} onOpenChange={setIsAddAppointmentOpen}>
                   <DialogTrigger asChild>
                     <Button className="bg-medical-blue hover:bg-blue-700">
                       <Plus className="w-4 h-4 mr-2" />
-                      Schedule Appointment
+                      {t("appointments.scheduleAppointment")}
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
-                      <DialogTitle>Schedule New Appointment</DialogTitle>
+                      <DialogTitle>{t("appointments.scheduleNew")}</DialogTitle>
                     </DialogHeader>
                     <AppointmentForm />
                   </DialogContent>

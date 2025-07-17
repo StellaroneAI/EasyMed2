@@ -5,8 +5,10 @@ import { Bot, TrendingUp, Users, Lightbulb, Brain, Zap } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import SymptomChecker from "@/components/ai-checker/symptom-checker";
 import AiResults from "@/components/ai-checker/ai-results";
+import { useLanguage } from "@/contexts/language-context";
 
 export default function AiChecker() {
+  const { t } = useLanguage();
   const [currentConsultation, setCurrentConsultation] = useState(null);
 
   const { data: aiConsultations = [], isLoading } = useQuery({
@@ -87,8 +89,8 @@ export default function AiChecker() {
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-charcoal mb-2">AI Symptom Checker</h1>
-        <p className="text-gray-600">Advanced AI-powered preliminary diagnosis and health recommendations.</p>
+        <h1 className="text-3xl font-bold text-charcoal mb-2">{t("aiChecker.title")}</h1>
+        <p className="text-gray-600">{t("aiChecker.enterSymptoms")}</p>
       </div>
 
       {/* Stats Cards */}
@@ -97,7 +99,7 @@ export default function AiChecker() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">AI Consultations</p>
+                <p className="text-sm font-medium text-gray-600">{t("aiChecker.consultations")}</p>
                 <p className="text-3xl font-bold text-charcoal mt-2">{totalConsultations}</p>
               </div>
               <div className="w-12 h-12 bg-digital-purple bg-opacity-10 rounded-lg flex items-center justify-center">
@@ -111,7 +113,7 @@ export default function AiChecker() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Pending Reviews</p>
+                <p className="text-sm font-medium text-gray-600">{t("aiChecker.pendingReviews")}</p>
                 <p className="text-3xl font-bold text-charcoal mt-2">{pendingReviews}</p>
               </div>
               <div className="w-12 h-12 bg-yellow-500 bg-opacity-10 rounded-lg flex items-center justify-center">
@@ -125,7 +127,7 @@ export default function AiChecker() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Avg Confidence</p>
+                <p className="text-sm font-medium text-gray-600">{t("aiChecker.avgConfidence")}</p>
                 <p className="text-3xl font-bold text-charcoal mt-2">{(avgConfidence * 100).toFixed(0)}%</p>
               </div>
               <div className="w-12 h-12 bg-health-green bg-opacity-10 rounded-lg flex items-center justify-center">
@@ -144,7 +146,7 @@ export default function AiChecker() {
             <CardHeader className="border-b border-gray-200">
               <CardTitle className="text-lg font-semibold text-charcoal flex items-center">
                 <Bot className="w-5 h-5 mr-2 text-digital-purple" />
-                AI Symptom Analysis
+{t("aiChecker.analysis")}
               </CardTitle>
             </CardHeader>
 
@@ -152,7 +154,7 @@ export default function AiChecker() {
               <Tabs defaultValue="checker" className="w-full">
                 <div className="px-6 pt-6">
                   <TabsList className="grid w-full grid-cols-3">
-                    <TabsTrigger value="checker">Symptom Checker</TabsTrigger>
+                    <TabsTrigger value="checker">{t("nav.aiChecker")}</TabsTrigger>
                     <TabsTrigger value="results">Recent Results</TabsTrigger>
                     <TabsTrigger value="history">History</TabsTrigger>
                   </TabsList>

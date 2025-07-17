@@ -52,6 +52,9 @@ const translations = {
     "patients.actions": "Actions",
     "patients.view": "View",
     "patients.edit": "Edit",
+    "patients.totalPatients": "Total Patients",
+    "patients.aadhaarVerified": "Aadhaar Verified",
+    "patients.pendingVerification": "Pending Verification",
     
     // Appointments 
     "appointments.title": "Appointment Management",
@@ -66,6 +69,9 @@ const translations = {
     "appointments.scheduled": "Scheduled",
     "appointments.completed": "Completed",
     "appointments.cancelled": "Cancelled",
+    "appointments.totalAppointments": "Total Appointments",
+    "appointments.scheduleAppointment": "Schedule Appointment",
+    "appointments.scheduleNew": "Schedule New Appointment",
     
     // AI Checker
     "aiChecker.title": "AI-Powered Symptom Checker",
@@ -79,6 +85,9 @@ const translations = {
     "aiChecker.confidence": "Confidence",
     "aiChecker.recommendations": "Recommended Actions",
     "aiChecker.disclaimer": "Disclaimer",
+    "aiChecker.consultations": "AI Consultations",
+    "aiChecker.pendingReviews": "Pending Reviews",
+    "aiChecker.avgConfidence": "Avg Confidence",
     
     // Family Health
     "family.title": "Family Health Management",
@@ -159,6 +168,9 @@ const translations = {
     "patients.actions": "कार्य",
     "patients.view": "देखें",
     "patients.edit": "संपादित करें",
+    "patients.totalPatients": "कुल मरीज़",
+    "patients.aadhaarVerified": "आधार सत्यापित",
+    "patients.pendingVerification": "सत्यापन लंबित",
     
     // Appointments
     "appointments.title": "अपॉइंटमेंट प्रबंधन",
@@ -173,6 +185,9 @@ const translations = {
     "appointments.scheduled": "निर्धारित",
     "appointments.completed": "पूर्ण",
     "appointments.cancelled": "रद्द",
+    "appointments.totalAppointments": "कुल अपॉइंटमेंट",
+    "appointments.scheduleAppointment": "अपॉइंटमेंट निर्धारित करें",
+    "appointments.scheduleNew": "नया अपॉइंटमेंट निर्धारित करें",
     
     // AI Checker
     "aiChecker.title": "AI-संचालित लक्षण चेकर",
@@ -186,6 +201,9 @@ const translations = {
     "aiChecker.confidence": "विश्वास",
     "aiChecker.recommendations": "सुझाए गए कार्य",
     "aiChecker.disclaimer": "अस्वीकरण",
+    "aiChecker.consultations": "AI परामर्श",
+    "aiChecker.pendingReviews": "लंबित समीक्षाएं",
+    "aiChecker.avgConfidence": "औसत विश्वसनीयता",
     
     // Family Health
     "family.title": "पारिवारिक स्वास्थ्य प्रबंधन",
@@ -266,6 +284,9 @@ const translations = {
     "patients.actions": "செயல்கள்",
     "patients.view": "பார்க்கவும்",
     "patients.edit": "திருத்தவும்",
+    "patients.totalPatients": "மொத்த நோயாளிகள்",
+    "patients.aadhaarVerified": "ஆதார் சரிபார்க்கப்பட்டது",
+    "patients.pendingVerification": "சரிபார்ப்பு நிலுவையில்",
     
     // Appointments
     "appointments.title": "சந்திப்பு மேலாண்மை",
@@ -280,6 +301,9 @@ const translations = {
     "appointments.scheduled": "திட்டமிடப்பட்டது",
     "appointments.completed": "முடிந்தது",
     "appointments.cancelled": "ரத்து செய்யப்பட்டது",
+    "appointments.totalAppointments": "மொத்த சந்திப்புகள்",
+    "appointments.scheduleAppointment": "சந்திப்பை திட்டமிடுங்கள்",
+    "appointments.scheduleNew": "புதிய சந்திப்பை திட்டமிடுங்கள்",
     
     // AI Checker
     "aiChecker.title": "AI-இயங்கும் அறிகுறி சரிபார்ப்பாளர்",
@@ -293,6 +317,9 @@ const translations = {
     "aiChecker.confidence": "நம்பிக்கை",
     "aiChecker.recommendations": "பரிந்துரைக்கப்பட்ட செயல்கள்",
     "aiChecker.disclaimer": "மறுப்பு",
+    "aiChecker.consultations": "AI ஆலோசனைகள்",
+    "aiChecker.pendingReviews": "நிலுவையில் உள்ள மதிப்பீடுகள்",
+    "aiChecker.avgConfidence": "சராசரி நம்பிக்கை",
     
     // Family Health
     "family.title": "குடும்ப ஆரோக்கிய மேலாண்மை",
@@ -373,6 +400,9 @@ const translations = {
     "patients.actions": "చర్యలు",
     "patients.view": "చూడండి",
     "patients.edit": "సవరించండి",
+    "patients.totalPatients": "మొత్తం రోగులు",
+    "patients.aadhaarVerified": "ఆధార్ ధృవీకరించబడింది",
+    "patients.pendingVerification": "ధృవీకరణ పెండింగ్‌లో",
     
     // Appointments
     "appointments.title": "అపాయింట్‌మెంట్ నిర్వహణ",
@@ -387,6 +417,9 @@ const translations = {
     "appointments.scheduled": "షెడ్యూల్ చేయబడింది",
     "appointments.completed": "పూర్తయింది",
     "appointments.cancelled": "రద్దు చేయబడింది",
+    "appointments.totalAppointments": "మొత్తం అపాయింట్‌మెంట్లు",
+    "appointments.scheduleAppointment": "అపాయింట్‌మెంట్‌ను షెడ్యూల్ చేయండి",
+    "appointments.scheduleNew": "కొత్త అపాయింట్‌మెంట్‌ను షెడ్యూల్ చేయండి",
     
     // AI Checker
     "aiChecker.title": "AI-శక్తితో కూడిన లక్షణ చెకర్",
@@ -400,6 +433,9 @@ const translations = {
     "aiChecker.confidence": "విశ్వాసం",
     "aiChecker.recommendations": "సిఫార్సు చేయబడిన చర్యలు",
     "aiChecker.disclaimer": "నిరాకరణ",
+    "aiChecker.consultations": "AI సంప్రదింపులు",
+    "aiChecker.pendingReviews": "పెండింగ్ రివ్యూలు",
+    "aiChecker.avgConfidence": "సరాసరి విశ్వాసం",
     
     // Family Health
     "family.title": "కుటుంబ ఆరోగ్య నిర్వహణ",
