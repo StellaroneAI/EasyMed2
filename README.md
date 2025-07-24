@@ -262,5 +262,3 @@ Multi-script text handling
 EasyMed - Transforming Healthcare Through AI Innovation
 
 Built with ❤️ for India's Healthcare Future
-
-Loading... - Replit
